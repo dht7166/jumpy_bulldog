@@ -59,11 +59,6 @@ class Dog(pygame.sprite.Sprite):
 
         # Update physic for character
         x,y = self.rect.center
-        # if x < 300:
-        #     self.speed_x = 5
-        # elif x>300:
-        #     self.speed_x = 0
-        #     x = 300
         self.rect.center = (x+self.speed_x, y - self.speed_y)
         self.update_pos()
         collided = False
