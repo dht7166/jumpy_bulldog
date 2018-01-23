@@ -18,8 +18,8 @@ def main_game():
     terrain_render = pygame.sprite.RenderPlain()
     current_pos = 0
     for i in range(10):
-        new_terrain = terrain.Terrain("image\PNG Grass",(current_pos,650),height = 3)
-        current_pos = current_pos+200
+        new_terrain = terrain.Terrain("image\PNG Grass",time.clock(),(current_pos,650),height = 3)
+        current_pos = new_terrain.rect.right
         terrain_render.add(new_terrain)
     terrain_render.draw(screen)
     bulldog = character.Dog((500,350))
@@ -37,6 +37,9 @@ def main_game():
             sys.exit(0)
         if event.type == KEYDOWN and event.key == K_ESCAPE:
             sys.exit(0)
+        if not pygame.mouse.get_focused():
+            terrain_render.update(time.clock(),True)
+            continue
         screen.blit(background,(0, 0))
         character_render.update(time.clock(),terrain_render,event)
         character_render.draw(screen)
@@ -46,10 +49,11 @@ def main_game():
             gg = terr.rect
             if gg[0]+gg[2]<0:
                 terrain_render.remove(terr)
-        while len(terrain_render.sprites())<10:
+        while len(terrain_render.sprites())<5:
             height= random.randint(2,4)
-            terrain_render.add(terrain.Terrain("image\PNG Grass",(current_pos,650),height = height))
-            current_pos = current_pos +200 + random.randint(0,1)*(100 + random.randint(0,150))
+            new_terrain = terrain.Terrain("image\PNG Grass",time.clock(),(current_pos,650),height = height)
+            terrain_render.add(new_terrain)
+            current_pos = new_terrain.rect.right
         terrain_render.draw(screen)
 
         pygame.display.flip()
