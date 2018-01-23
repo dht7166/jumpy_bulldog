@@ -46,7 +46,7 @@ class Dog(pygame.sprite.Sprite):
 
     def update_pos(self):
         self.bottom = pygame.Rect(self.rect[0],self.rect[1]+self.rect[3],round(self.rect[2]*0.75 ),1)
-        self.rightmost = pygame.Rect(self.rect[0]+self.rect[2],self.rect[1],1,round(self.rect[3]/2))
+        self.rightmost = pygame.Rect(self.rect[0]+self.rect[2],self.rect[1],1,round(self.rect[3]*0.75))
 
 
     def update(self,cur_time,terrain,event):
@@ -78,8 +78,9 @@ class Dog(pygame.sprite.Sprite):
         if self.jumping == 0 and self.speed_y!=-5:
             self.speed_y = self.speed_y - 1
         elif self.jumping!=0:
-            self.speed_y = 10
-            self.jumping = (self.jumping + 1)%25
+            if self.speed_y<10:
+                self.speed_y = self.speed_y + 1
+            self.jumping = (self.jumping + 1)%27
 
 
         if event.type == KEYDOWN and self.jumping == 0 and collided:

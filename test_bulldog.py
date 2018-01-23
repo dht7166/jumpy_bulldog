@@ -18,7 +18,7 @@ def main_game():
     terrain_render = pygame.sprite.RenderPlain()
     current_pos = 0
     for i in range(10):
-        new_terrain = terrain.Terrain((current_pos,650),height = 3)
+        new_terrain = terrain.Terrain("image\PNG Grass",(current_pos,650),height = 3)
         current_pos = current_pos+200
         terrain_render.add(new_terrain)
     terrain_render.draw(screen)
@@ -48,10 +48,13 @@ def main_game():
                 terrain_render.remove(terr)
         while len(terrain_render.sprites())<10:
             height= random.randint(2,4)
-            terrain_render.add(terrain.Terrain((current_pos,650),height = height))
+            terrain_render.add(terrain.Terrain("image\PNG Grass",(current_pos,650),height = height))
             current_pos = current_pos +200 + random.randint(0,1)*(100 + random.randint(0,150))
         terrain_render.draw(screen)
 
         pygame.display.flip()
+
+
+
 
 main_game()

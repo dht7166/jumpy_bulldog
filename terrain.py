@@ -6,11 +6,11 @@ import sys
 
 
 class Terrain(pygame.sprite.Sprite):
-    def __init__(self,position,width = 1,height = 1):
+    def __init__(self,folder,position,width = 1,height = 1):
         self.time = 0
         pygame.sprite.Sprite.__init__(self)
-
-        img_list = glob.glob("image\PNG Grass\*.png")
+        self.folder = folder
+        img_list = glob.glob(str(folder)+"\*.png")
         self.image_list = []
         for img in img_list:
             image = pygame.image.load(img).convert()
