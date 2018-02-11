@@ -14,6 +14,7 @@ class Dog(pygame.sprite.Sprite):
     standing = 1
 
     def __init__(self,position):
+        self.sound_jump = pygame.mixer.Sound("sound\jump.wav")
         self.top_offset = 30
         self.time = 0
         self.speed_x = 0
@@ -85,8 +86,6 @@ class Dog(pygame.sprite.Sprite):
                 o_x = overlap_x(self.rect,ter.rect)
             if tp:
                 o_y = -overlap_y(ter.rect,self.rect) + self.top_offset
-            if bt or rm or tp:
-                print(bt,rm,tp)
             x,y = self.rect.center
             self.rect.center = (x-o_x,y-o_y)
             self.update_pos()
@@ -95,7 +94,8 @@ class Dog(pygame.sprite.Sprite):
         self.jump()
 
         if event.type == KEYDOWN and self.jumping == 0 and collided:
-            print("pressed")
+
+            self.sound_jump.play()
             self.jumping = 1
 
 
