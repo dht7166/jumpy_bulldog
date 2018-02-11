@@ -14,6 +14,7 @@ class Dog(pygame.sprite.Sprite):
     standing = 1
 
     def __init__(self,position):
+        self.top_offset = 30
         self.time = 0
         self.speed_x = 0
         self.speed_y = -5
@@ -34,20 +35,31 @@ class Dog(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect()
 
-        self.bottom = (self.rect[0], self.rect[1] + self.rect[3])
-        self.rightmost = (self.rect[0] + self.rect[2], self.rect[1])
+        self.bottom = 0
+        self.rightmost = 0
+        self.top = 0
         self.rect.center = position
         self.update_pos()
 
 
     def collide(self,terrain):
-        return (terrain.rect.colliderect(self.bottom),terrain.rect.colliderect(self.rightmost))
+        return (terrain.rect.colliderect(self.bottom),terrain.rect.colliderect(self.top),terrain.rect.colliderect(self.rightmost))
 
 
     def update_pos(self):
-        self.bottom = pygame.Rect(self.rect[0],self.rect[1]+self.rect[3],round(self.rect[2]*0.75 ),1)
-        self.rightmost = pygame.Rect(self.rect[0]+self.rect[2],self.rect[1],1,round(self.rect[3]*0.75))
+        self.bottom = pygame.Rect(self.rect[0],self.rect.bottom,round(self.rect[2]*0.75 ),1)
+        self.top = pygame.Rect(self.rect[0],self.rect.top+self.top_offset,1,1)
+        self.rightmost = pygame.Rect(self.rect.right,round((self.rect.top+self.rect.bottom)/2),10,round(self.rect[3]*0.25))
 
+    def jump(self):
+        if self.jumping == 0 and self.speed_y!=-5:
+            self.speed_y = self.speed_y - 1
+        elif self.jumping!=0:
+            if(self.speed_y<0):
+                self.speed_y = 0
+            if self.speed_y<6:
+                self.speed_y = self.speed_y + 1
+            self.jumping = (self.jumping + 1)%50
 
     def update(self,cur_time,terrain,event):
         if(cur_time-self.time>0.1):
@@ -63,7 +75,7 @@ class Dog(pygame.sprite.Sprite):
         self.update_pos()
         collided = False
         for ter in terrain:
-            bt,rm = self.collide(ter)
+            bt,tp,rm = self.collide(ter)
             o_x = 0
             o_y = 0
             if bt:
@@ -71,19 +83,19 @@ class Dog(pygame.sprite.Sprite):
                 o_y = overlap_y(self.rect,ter.rect)
             if rm:
                 o_x = overlap_x(self.rect,ter.rect)
+            if tp:
+                o_y = -overlap_y(ter.rect,self.rect) + self.top_offset
+            if bt or rm or tp:
+                print(bt,rm,tp)
             x,y = self.rect.center
             self.rect.center = (x-o_x,y-o_y)
             self.update_pos()
 
-        if self.jumping == 0 and self.speed_y!=-5:
-            self.speed_y = self.speed_y - 1
-        elif self.jumping!=0:
-            if self.speed_y<6:
-                self.speed_y = self.speed_y + 1
-            self.jumping = (self.jumping + 1)%50
 
+        self.jump()
 
         if event.type == KEYDOWN and self.jumping == 0 and collided:
+            print("pressed")
             self.jumping = 1
 
 

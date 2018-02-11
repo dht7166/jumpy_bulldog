@@ -50,15 +50,20 @@ def main_game():
             gg = terr.rect
             if gg[0]+gg[2]<0:
                 terrain_render.remove(terr)
+
         while len(terrain_render.sprites())<15:
             current_pos = 0
+            jump = 0
             for ter in terrain_render:
                 current_pos = max(current_pos,ter.rect.right)
-            height= random.randint(2,4)
-            new_terrain = terrain.Terrain("image\PNG Grass",time.clock(),(current_pos,650),height = height)
+            height = 1
+            jump = random.randint(0,200)
+            if jump >100:
+                height= random.randint(2,4)
+            new_terrain = terrain.Terrain("image\PNG Grass",time.clock(),(current_pos+jump,650),height = height)
             terrain_render.add(new_terrain)
         terrain_render.draw(screen)
-
+        pygame.draw.rect(screen,(0,0,0),bulldog.top)
         pygame.display.flip()
 
 
