@@ -62,41 +62,44 @@ class Dog(pygame.sprite.Sprite):
                 self.speed_y = self.speed_y + 1
             self.jumping = (self.jumping + 1)%50
 
-    def update(self,cur_time,terrain,event):
-        if(cur_time-self.time>0.1):
+    def update_lvl1(self,cur_time,terrain,event):
+        if (cur_time - self.time > 0.1):
             self.value = (self.value + 1) % len(self.right)
             self.image = self.right[self.value]
             self.time = cur_time
 
-
-
-        # Update physic for character
-        x,y = self.rect.center
-        self.rect.center = (x+self.speed_x, y - self.speed_y)
+            # Update physic for character
+        x, y = self.rect.center
+        self.rect.center = (x + self.speed_x, y - self.speed_y)
         self.update_pos()
         collided = False
         for ter in terrain:
-            bt,tp,rm = self.collide(ter)
+            bt, tp, rm = self.collide(ter)
             o_x = 0
             o_y = 0
             if bt:
                 collided = True
-                o_y = overlap_y(self.rect,ter.rect)
+                o_y = overlap_y(self.rect, ter.rect)
             if rm:
-                o_x = overlap_x(self.rect,ter.rect)
+                o_x = overlap_x(self.rect, ter.rect)
             if tp:
-                o_y = -overlap_y(ter.rect,self.rect) + self.top_offset
-            x,y = self.rect.center
-            self.rect.center = (x-o_x,y-o_y)
+                o_y = -overlap_y(ter.rect, self.rect) + self.top_offset
+            x, y = self.rect.center
+            self.rect.center = (x - o_x, y - o_y)
             self.update_pos()
-
 
         self.jump()
 
         if event.type == KEYDOWN and self.jumping == 0 and collided:
-
             self.sound_jump.play()
             self.jumping = 1
+
+
+    def update_lvl2(self):
+        pass
+
+    def update(self,cur_time,terrain,event):
+        pass
 
 
 

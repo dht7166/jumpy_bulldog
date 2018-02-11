@@ -52,7 +52,8 @@ def main_game():
             terrain_render.update(time.clock(),True)
             continue
         screen.blit(background,(0, 0))
-        character_render.update(time.clock(),terrain_render,event)
+        bulldog.update_lvl1(time.clock(),terrain_render,event)
+        # character_render.update(time.clock(),terrain_render,event)
         character_render.draw(screen)
 
         terrain_render.update(time.clock())
