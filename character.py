@@ -78,9 +78,9 @@ class Dog(pygame.sprite.Sprite):
         if self.jumping == 0 and self.speed_y!=-5:
             self.speed_y = self.speed_y - 1
         elif self.jumping!=0:
-            if self.speed_y<10:
+            if self.speed_y<6:
                 self.speed_y = self.speed_y + 1
-            self.jumping = (self.jumping + 1)%25
+            self.jumping = (self.jumping + 1)%50
 
 
         if event.type == KEYDOWN and self.jumping == 0 and collided:

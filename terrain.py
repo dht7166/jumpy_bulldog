@@ -18,6 +18,9 @@ class Terrain(pygame.sprite.Sprite):
             self.image_list.append(image)
         self.image = self.image_list[6]
         self.rect = self.image.get_bounding_rect()
+        x,y = position
+        y = y - 100*(height-1)
+        position = (x,y)
         self.rect.topleft = position
 
 

@@ -10,6 +10,7 @@ import random
 fps = pygame.time.Clock()
 screen = pygame.display.set_mode((1024,768),HWACCEL)
 
+
 def main_game():
 
     background = pygame.image.load("image/background0.png").convert()
@@ -18,7 +19,7 @@ def main_game():
     terrain_render = pygame.sprite.RenderPlain()
     current_pos = 0
     for i in range(10):
-        new_terrain = terrain.Terrain("image\PNG Grass",time.clock(),(current_pos,650),height = 3)
+        new_terrain = terrain.Terrain("image\PNG Grass",time.clock(),(current_pos,650),height = 2)
         current_pos = new_terrain.rect.right
         terrain_render.add(new_terrain)
     terrain_render.draw(screen)
@@ -30,7 +31,7 @@ def main_game():
 
     while 1:
         fps.tick(120)
-        if not screen.get_rect().contains(bulldog.rect):
+        if bulldog.rect.left<0 or bulldog.rect.bottom>768:
             sys.exit(0)
         event = pygame.event.poll()
         if event.type == QUIT:
@@ -49,11 +50,13 @@ def main_game():
             gg = terr.rect
             if gg[0]+gg[2]<0:
                 terrain_render.remove(terr)
-        while len(terrain_render.sprites())<5:
+        while len(terrain_render.sprites())<15:
+            current_pos = 0
+            for ter in terrain_render:
+                current_pos = max(current_pos,ter.rect.right)
             height= random.randint(2,4)
             new_terrain = terrain.Terrain("image\PNG Grass",time.clock(),(current_pos,650),height = height)
             terrain_render.add(new_terrain)
-            current_pos = new_terrain.rect.right
         terrain_render.draw(screen)
 
         pygame.display.flip()
