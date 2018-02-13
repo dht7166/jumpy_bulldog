@@ -16,9 +16,10 @@ pygame.mouse.set_pos(100,100)
 pygame.mixer.pre_init(44100, -16, 2, 1024)
 pygame.init()
 lost_game = pygame.mixer.Sound("sound/lost.wav")
-background_sound = pygame.mixer.Sound("sound/background_sound_lvl1.wav")
-background_sound.set_volume(0.2)
+
 def main_game():
+    background_sound = pygame.mixer.Sound("sound/background_sound_lvl1.wav")
+    background_sound.set_volume(0.2)
     background_sound.play(loops=-1,maxtime=0,fade_ms=5000)
     background = pygame.image.load("image/background0.png").convert()
     background = pygame.transform.scale(background,(1024,768))
@@ -76,8 +77,13 @@ def main_game():
             new_terrain = terrain.Terrain("image\PNG Grass",time.clock(),(current_pos+jump,650),height = height)
             terrain_render.add(new_terrain)
         terrain_render.draw(screen)
-        pygame.draw.rect(screen,(0,0,0),bulldog.top)
         pygame.display.flip()
 
+
+def level2():
+    background = pygame.image.load("image/background1.png").convert()
+    background = pygame.transform.scale(background, (1024, 768))
+    screen.blit(background, (0, 0))
+    
 
 main_game()
