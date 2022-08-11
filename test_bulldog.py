@@ -27,7 +27,7 @@ def main_game():
     terrain_render = pygame.sprite.RenderPlain()
     current_pos = 0
     for i in range(10):
-        new_terrain = terrain.Terrain("image\PNG Grass",time.clock(),(current_pos,650),height = 2)
+        new_terrain = terrain.Terrain("image\PNG Grass",time.perf_counter(),(current_pos,650),height = 2)
         current_pos = new_terrain.rect.right
         terrain_render.add(new_terrain)
     terrain_render.draw(screen)
@@ -50,14 +50,14 @@ def main_game():
         if event.type == KEYDOWN and event.key == K_ESCAPE:
             sys.exit(0)
         if not pygame.mouse.get_focused():
-            terrain_render.update(time.clock(),True)
+            terrain_render.update(time.perf_counter(),True)
             continue
         screen.blit(background,(0, 0))
-        bulldog.update_lvl1(time.clock(),terrain_render,event)
-        # character_render.update(time.clock(),terrain_render,event)
+        bulldog.update_lvl1(time.perf_counter(),terrain_render,event)
+        # character_render.update(time.perf_counter(),terrain_render,event)
         character_render.draw(screen)
 
-        terrain_render.update(time.clock())
+        terrain_render.update(time.perf_counter())
         for terr in terrain_render:
             gg = terr.rect
             if gg[0]+gg[2]<0:
@@ -74,7 +74,7 @@ def main_game():
                 height= random.randint(2,3)
             else:
                 height = random.randint(1,4)
-            new_terrain = terrain.Terrain("image\PNG Grass",time.clock(),(current_pos+jump,650),height = height)
+            new_terrain = terrain.Terrain("image\PNG Grass",time.perf_counter(),(current_pos+jump,650),height = height)
             terrain_render.add(new_terrain)
         terrain_render.draw(screen)
         pygame.display.flip()
